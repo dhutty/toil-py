@@ -62,8 +62,6 @@ different credentials in each profile.
 Each data source and service may have 1-M profiles.  A profile named 'default' is used
 in all method calls if no profile name is provided.
 
-
-## Config File
 ``` json
 {
   "toil": {
