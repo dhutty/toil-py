@@ -1,35 +1,43 @@
 toil
 ---
-Hard working python framework with boots on the ground for your cloud.
+Hard working python framework with eyes and boots on the ground for your cloud.
 <br>
 ```
-                              ~~~~~~~~
-                               ~~~~~~
-                              ~~~~~~~~
-        /-\
-       |< >|
-        \@/
-        /|\
-         | \
-        / \ \
-          ___\___
-          | | | |
+           ~~~~~~~~
+            ~~~~~~
+           ~~~~~~~~
+ /-\
+|< >|
+ \@/
+ /|\
+  | \
+ / \ \
+   ___\___
+   | | | |
 ```
 
 Description
 ---
 The toil Python framework is for cloud administrators or programmers
-requiring access to cloud services.
+requiring access to cloud services.  Provides a simplistic pattern to utilize
+and develop sdks and services,and help you get off the ground and into the
+cloud quickly.
 
-Built in providers for OCI, AWS, CHEF, SCALR, RELATIONAL DATA SOURCES.
+As an enterprise cloud administrator I work with multiple cloud vendors.
+I routinely write scripts that aggregate data across the cloud vendors, and
+find it bothersome and unproductive to securely configure config files
+with multiple profiles, authentication and authorization.
 
-Provides a simplistic pattern to develop and utilize services
-that will help you get off the ground and into the cloud quickly. The code
+**Toil** gives you a simple centralized config file in JSON format, allowing
+multiple profiles per SDK, and encrypting sensitive values.
+
+Built in providers include OCI, AWS, CHEF, SCALR, and RELATIONAL DATA SOURCES.
+
+The framework is extensible by allowing you to add your own services, and
 follows the "Convention over Configuration" design paradigm. Services are
 completely exposed so you do not have to worry about the framework hiding
 implementation details.
 
-The framework is extensible by allowing you to add your own services.
 
 Encryption, method decorators for timing and retry, and other utilities are
 available.
@@ -45,13 +53,132 @@ Usage
 ----
 Here is a quick glance demonstrating how easy it is:
 
+What format is the config file??
+---------------
+The config file is JSON, may prvide YAML in future.
+
+Each service may have multiple profiles defined.  For instance, you may have
+an OCI admin profile, OCI basic profile and OCI read only profile.  You may specify
+different credentials in each profile.
+
+Each data source and service may have 1-M profiles.  A profile named 'default' is used
+in all method calls if no profile name is provided.
+
+
+######Config File
+``` json
+{
+  "toil": {
+    "datasources": {
+      "default": {
+        "log_level": "info",
+        "provider": "provider.datasource.AlchemyMySQLDatasourceProvider",
+        "proxy": "",
+        "adapter": "mysql+pymysql",
+        "database": "db_name",
+        "env": "db_env",
+        "host": "host_name",
+        "port": "3306",
+        "user": "user",
+        "password": "password"
+      }
+    },
+    "services": {
+      "oci": {
+        "alias": "oci",
+        "log_level": "debug",
+        "provider": "provider.oci_sdk.OciSdkLib",
+        "proxy": "",
+        "default": {
+          "user": "ocid1.user.oc1...",
+          "fingerprint": "...",
+          "key_file": "~/.oci/oci_api_key.pem",
+          "tenancy": "ocid1.tenancy.oc1...",
+          "region": "us-ashburn-1"
+        },
+        "oci_prod_admin": {
+          "user": "ocid1.user.oc1...",
+          "fingerprint": "...",
+          "key_file": "~/.oci/oci_api_key.pem",
+          "tenancy": "ocid1.tenancy.oc1...",
+          "region": "us-ashburn-1"
+        },
+        "oci_prod_readonly": {
+          "user": "ocid1.user.oc1...",
+          "fingerprint": "...",
+          "key_file": "~/.oci/oci_api_key.pem",
+          "tenancy": "ocid1.tenancy.oc1...",
+          "region": "us-ashburn-1"
+        },
+        "oci_dev_readonly": {
+          "user": "ocid1.user.oc1...",
+          "fingerprint": "...",
+          "key_file": "~/.oci/oci_api_key.pem",
+          "tenancy": "ocid1.tenancy.oc1...",
+          "region": "us-ashburn-1"
+        }
+      },
+      "aws": {
+        "alias": "aws",
+        "log_level": "info",
+        "provider": "provider.aws.AwsLib",
+        "proxy": "proxy-host-name:proxy-port",
+        "default": {
+          "access_key_id": "access_key_id",
+          "account_number": "account_number",
+          "region": "us-east-1",
+          "role_arn": "arn:aws:iam::#########:role/role-name",
+          "role_session_name": "role_session_name",
+          "secret_access_key": "secret_access_key"
+        },
+        "aws_profile_1": {
+          "access_key_id": "access_key_id",
+          "account_number": "account_number",
+          "region": "us-east-1",
+          "role_arn": "arn:aws:iam::#########:role/role-name",
+          "role_session_name": "role_session_name",
+          "secret_access_key": "secret_access_key"
+        }
+      },
+      "openstack": {
+        "alias": "openstack",
+        "log_level": "info",
+        "provider": "provider.openstack.OpenStackLib",
+        "proxy": "",
+        "default": {
+          "auth_url": "auth_url",
+          "domain": "domain",
+          "password": "password",
+          "project": "project",
+          "region": "region",
+          "user": "user",
+          "user_domain": "user_domain"
+        }
+      }
+    }
+  }
+}
+```
+
+###Example Code
+
+###### Call program from bash
+```
+python /projects/toil/examples/oci_list_compartment.py -c /data/files/config/toil.json -k YPALQ0g7pIOCCHg0hLL1qi7oRzdWk8Vj3Cr8-HsUoy0=
+```
+
 ###### Create Framework
 ```
-# process args
+# process args - get the config file location and encryption key
 args = parm.handle.handle_parms(['c', 'k'])
 
 # create cloud framework
 framework = toil.create(**args)
+```
+
+###### Use a profile:
+```
+framework.oci.session('oci_prod_admin')
 ```
 
 ###### OCI (Oracle cloud infrastructure)
@@ -98,9 +225,9 @@ encrypted_data = toil.encryptor.encrypt(confidential_data, encryption_key=key)
 decrypted_data = toil.encryptor.decrypt(encrypted_data, encryption_key=key)
 ```
 
-######A service you provide becomes a property of the library.  Pretty cool!
+######A Your owns service you provide becomes a property of the library.  Nice!
 ```
-my_service_session = framework.your_service.session()
+my_service_session = framework.your_service_name.session()
 my_service_session.your_method()
 ```
 
@@ -126,9 +253,9 @@ q = """
 select
 *
 from
-cur_instance
+some_table
 where
-instance_id like :i
+some_column like :i
 """
 
 # simple query
@@ -136,17 +263,17 @@ instance_id like :i
 ds_session = framework.datasource.session()
 
 for row in ds_session.exec_sql_query(q, **{"i": "i-30%"}):
-print(row['instance_id'])
+print(row['some_column'])
 ```
 
-It it that easy?
+Is it that easy?
 ---------------
 Yes it really is easy, just install required software and create a config
 file.
 
 See Install section.
 
-What's up with the parameters to create library?
+Framework Standard Parameters
 ---------------
 ###### Standard parameters include:
 -  -c = config file
@@ -155,148 +282,7 @@ What's up with the parameters to create library?
 -  -o = options
 -  -v = verbose
 
-What does the config file look like?
----------------
-The config file is JSON.
 
-Each service may have multiple profiles defined.  For instance, you may have
-an OCI admin profile, OCI basic profile and OCI read only profile.  You may specify
-different credentials in each profile.
-
-Each data source and service may have 1-M profiles.  A profile named 'default' is used
-in all method calls if no profile name is provided.
-
-###### For instance:
-```
-framework.oci.session('oci_profile_1')
-```
-
-
-``` json
-{
-"toil": {
-"datasources": {
-"default": {
-"log_level": "info",
-"provider": "provider.datasource.AlchemyMySQLDatasourceProvider",
-"proxy": "",
-"adapter": "mysql+pymysql",
-"database": "db_name",
-"env": "db_env",
-"host": "host_name",
-"port": "3306",
-"user": "user",
-"password": "password"
-}
-},
-"services": {
-"oci": {
-"alias": "oci",
-"log_level": "debug",
-"provider": "provider.oci_sdk.OciSdkLib",
-"proxy": "",
-"default": {
-"user": "ocid1.user.oc1...",
-"fingerprint": "...",
-"key_file": "~/.oci/oci_api_key.pem",
-"tenancy": "ocid1.tenancy.oc1...",
-"region": "us-ashburn-1"
-},
-"oci_profile_1": {
-"user": "ocid1.user.oc1...",
-"fingerprint": "...",
-"key_file": "~/.oci/oci_api_key.pem",
-"tenancy": "ocid1.tenancy.oc1...",
-"region": "us-ashburn-1"
-},
-"oci_profile_2": {
-"user": "ocid1.user.oc1...",
-"fingerprint": "...",
-"key_file": "~/.oci/oci_api_key.pem",
-"tenancy": "ocid1.tenancy.oc1...",
-"region": "us-ashburn-1"
-}
-},
-"aws": {
-"alias": "aws",
-"log_level": "info",
-"provider": "provider.aws.AwsLib",
-"proxy": "proxy-host-name:proxy-port",
-"default": {
-"access_key_id": "access_key_id",
-"account_number": "account_number",
-"region": "us-east-1",
-"role_arn": "arn:aws:iam::#########:role/role-name",
-"role_session_name": "role_session_name",
-"secret_access_key": "secret_access_key"
-},
-"aws_profile_1": {
-"access_key_id": "access_key_id",
-"account_number": "account_number",
-"region": "us-east-1",
-"role_arn": "arn:aws:iam::#########:role/role-name",
-"role_session_name": "role_session_name",
-"secret_access_key": "secret_access_key"
-}
-},
-"chef": {
-"alias": "chef",
-"log_level": "debug",
-"provider": "provider.chefapi.ChefLib",
-"proxy": "",
-"default": {
-"chef_server_url": "chef_server_url",
-"client_key": "client_key/path/some.pem",
-"ssl_verify": false,
-"user": "user"
-}
-},
-"openstack": {
-"alias": "openstack",
-"log_level": "info",
-"provider": "provider.openstack.OpenStackLib",
-"proxy": "",
-"default": {
-"auth_url": "auth_url",
-"domain": "domain",
-"password": "password",
-"project": "project",
-"region": "region",
-"user": "user",
-"user_domain": "user_domain"
-}
-
-},
-"openstack_sdk": {
-"alias": "openstack_sdk",
-"log_level": "info",
-"provider": "provider.openstack_sdk.OpenStackLib",
-"proxy": "",
-"default": {
-"auth_url": "auth_url",
-"domain": "domain",
-"password": "password",
-"project": "project",
-"region": "region",
-"user": "user"
-}
-},
-"scalr": {
-"alias": "scalr",
-"log_level": "info",
-"provider": "provider.scalr.ScalrLib",
-"proxy": "",
-"default": {
-"api_key_id": "api_key_id",
-"api_key_secret": "api_key_secret",
-"api_url": "api_url",
-"project_id": "project_id"
-}
-}
-}
-}
-}
-```
 How do I create a config file?
 ---------------
 - generate encryption keys (optional)
@@ -325,7 +311,6 @@ framework.decrypt_config_file(encrypted_file, decrypted_file, encryption_key=key
 
 How do I add my own service?
 ---------------
-
 ###### create a class inherits from provider.base.BaseProvider
 ###### implement the session method
 ```
