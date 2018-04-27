@@ -263,7 +263,7 @@ print(row['some_column'])
 
 ## Framework Standard Parameters
 
-## Standard parameters include:
+### Standard parameters include:
 -  -c = config file
 -  -e = environment
 -  -k = encryption key
@@ -272,7 +272,6 @@ print(row['some_column'])
 
 
 ## How do I create a config file?
----------------
 - generate encryption keys (optional)
 - create a config file - sample code in project
 - add credentials and passwords to config
@@ -298,8 +297,8 @@ framework.decrypt_config_file(encrypted_file, decrypted_file, encryption_key=key
 ```
 
 ## How do I add my own service?
-###### create a class inherits from provider.base.BaseProvider
-###### implement the session method
+### create a class inherits from provider.base.BaseProvider
+### implement the session method
 ```
 # -*- coding: utf-8 -*-
 """
@@ -378,24 +377,25 @@ def get(self, url, **kwargs):
 return {}
 ```
 
-###### add service to config file.  Alias is used as the property name on the library.
+### Add service to config file.  Alias is used as the property name on the library.
 ``` json
 "services": {
-"example_service": {
-"provider": "provider.example.ExampleLib",
-"alias": "example_service",
-"log_level": "info",
-"proxy": "",
-"default": {
-"account_number": "123",
-"access_key_id": "456",
-"secret_access_key": "789",
-}
-"profile2": {
-"account_number": "abc",
-"access_key_id": "def",
-"secret_access_key": "ghi",
-}
+  "example_service": {
+    "provider": "provider.example.ExampleLib",
+    "alias": "example_service",
+    "log_level": "info",
+    "proxy": "",
+    "default": {
+      "account_number": "123",
+      "access_key_id": "456",
+      "secret_access_key": "789",
+    }
+    "profile2": {
+      "account_number": "abc",
+      "access_key_id": "def",
+      "secret_access_key": "ghi",
+    }
+  }
 }
 ...
 ```
