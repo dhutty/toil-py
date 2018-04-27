@@ -1,5 +1,5 @@
-toil
----
+# TOIL
+
 Hard working python framework with eyes and boots on the ground for your cloud.
 <br>
 ```
@@ -16,8 +16,8 @@ Hard working python framework with eyes and boots on the ground for your cloud.
    | | | |
 ```
 
-Description
----
+## Description
+
 The toil Python framework is for cloud administrators or programmers
 requiring access to cloud services.  Provides a simplistic pattern to utilize
 and develop sdks and services,and help you get off the ground and into the
@@ -48,8 +48,7 @@ Get the code at https://github.com/drewncrew/toil.git
 - 2018-04-26 First release
 
 
-Usage
-----
+## Usage
 Here is a quick glance demonstrating how easy it is:
 
 What format is the config file?
