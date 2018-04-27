@@ -157,12 +157,12 @@ A 'default' profile is used in all method calls if no profile name is provided.
 
 ## Example Code
 
-## Call program from bash
+### Call program from bash
 ```
 python /projects/toil/examples/oci_list_compartment.py -c /data/files/config/toil.json -k YPALQ0g7pIOCCHg0hLL1qi7oRzdWk8Vj3Cr8-HsUoy0=
 ```
 
-## Create Framework
+### Create Framework
 ```
 # process args - get the config file location and encryption key
 args = parm.handle.handle_parms(['c', 'k'])
@@ -171,12 +171,12 @@ args = parm.handle.handle_parms(['c', 'k'])
 framework = toil.create(**args)
 ```
 
-## Use a profile:
+### Use a profile:
 ```
 framework.oci.session('oci_prod_admin')
 ```
 
-## OCI (Oracle cloud infrastructure)
+### OCI (Oracle cloud infrastructure)
 ```
 session = framework.oci.session(env)
 compute_client = session.client('compute')
@@ -186,7 +186,7 @@ for instance in instances:
 logger.info(instance)
 ```
 
-## OpenStack
+### OpenStack
 ```
 session = framework.openstack.session()
 openstack_connection = session.connect()
@@ -195,24 +195,24 @@ for server in openstack_connection.compute.servers():
 meta = server.metadata.get('some-key')
 ```
 
-## Scalr
+### Scalr
 ```
 session = framework.scalr.session()
 scalr_envs = session.list('/account/environments/')
 ```
 
-## AWS
+### AWS
 ```
 instance = framework.aws.resource('ec2', 'default').Instance('i-xxxxxxx')
 tags = instance.tags
 ```
 
-## AWS S3 upload directory
+### AWS S3 upload directory
 ```
 framework.aws.upload_to_s3('some-bucket', '/path to dir', 'folder name')
 ```
 
-## AES enryption
+### AES enryption
 ```
 key = framework.encryptor.generate_key()
 confidential_data = "this is an encryption test"
@@ -220,27 +220,27 @@ encrypted_data = toil.encryptor.encrypt(confidential_data, encryption_key=key)
 decrypted_data = toil.encryptor.decrypt(encrypted_data, encryption_key=key)
 ```
 
-## A Your owns service you provide becomes a property of the library.  Nice!
+### Your own service you provide becomes a property of the library.  Nice!
 ```
 my_service_session = framework.your_service_name.session()
 my_service_session.your_method()
 ```
 
-## Method execution metrics
+### Method execution metrics
 ```
 @util.decorator.timeit(loops=1)
 def process(toil):
 ...
 ```
 
-## Retry if an exception occurs
+### Retry if an exception occurs
 ```
 @util.decorator.retry(3, requests.exceptions.RequestException)
 def get(self, url, **kwargs):
 ...
 ```
 
-## execute a sql statement
+### execute a sql statement
 ```
 # execute a query
 ---------------
@@ -253,7 +253,7 @@ where
 some_column like :i
 """
 
-# simple query
+### simple query
 ---------------
 ds_session = framework.datasource.session()
 
@@ -261,14 +261,7 @@ for row in ds_session.exec_sql_query(q, **{"i": "i-30%"}):
 print(row['some_column'])
 ```
 
-Is it that easy?
----------------
-Yes it really is easy, just install required software and create a config
-file.
-
-See Install section.
-
-Framework Standard Parameters
+##Framework Standard Parameters
 ---------------
 ## Standard parameters include:
 -  -c = config file
@@ -278,7 +271,7 @@ Framework Standard Parameters
 -  -v = verbose
 
 
-How do I create a config file?
+##How do I create a config file?
 ---------------
 - generate encryption keys (optional)
 - create a config file - sample code in project
