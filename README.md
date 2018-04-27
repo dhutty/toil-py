@@ -261,8 +261,8 @@ for row in ds_session.exec_sql_query(q, **{"i": "i-30%"}):
 print(row['some_column'])
 ```
 
-##Framework Standard Parameters
----------------
+## Framework Standard Parameters
+
 ## Standard parameters include:
 -  -c = config file
 -  -e = environment
@@ -271,7 +271,7 @@ print(row['some_column'])
 -  -v = verbose
 
 
-##How do I create a config file?
+## How do I create a config file?
 ---------------
 - generate encryption keys (optional)
 - create a config file - sample code in project
@@ -400,14 +400,13 @@ return {}
 ...
 ```
 
-## use your service
+## Use your service
 ```
 session = toil.example_service.session( )
 session.fetch( )
 ```
 
-Examples
-----
+## Examples
 Review the exmple package.
 Get the code at https://github.com/drewncrew/toil.git
 
@@ -423,7 +422,7 @@ cd ~/projects
 ```
 
 
-### ensure python 2.7.6. is installed (Only do this if installing python)
+### Ensure python 2.7 is installed (Only do this if installing python)
 ```
 sudo yum groupinstall -y 'development tools'
 sudo yum install -y python-devel
@@ -435,7 +434,7 @@ sudo yum install -y mysql-devel.x86_64
 sudo yum install -y mysql-connector-python
 ```
 
-### get python source (Only do this if installing python)
+### Get python source (Only do this if installing python)
 ```
 wget http://www.python.org/ftp/python/2.7.12/Python-2.7.12.tar.xz
 # decode (-d) the XZ encoded tar archive:
@@ -444,7 +443,7 @@ xz -d Python-2.7.12.tar.xz
 tar -xvf Python-2.7.12.tar
 ```
 
-### build python 2.7 (Only do this if installing python)
+### Build python 2.7 (Only do this if installing python)
 ```
 cd Python-2.7.12
 ./configure
@@ -453,7 +452,7 @@ sudo make altinstall
 #python2.7 should now be in /usr/local/bin/
 ```
 
-###ensure pip is installed
+### Ensure pip is installed
 ```
 wget https://bootstrap.pypa.io/get-pip.py
 sudo /usr/local/bin/python2.7 get-pip.py
@@ -461,26 +460,26 @@ sudo /usr/local/bin/python2.7 get-pip.py
 ```
 
 
-### install virtual environment
+### Install virtual environment
 ```
 cd ~/projects
 sudo /usr/local/bin/pip2.7 install virtualenv
 ```
 
-### activate virtual environment
+### Activate virtual environment
 ```
 virtualenv --python=/usr/local/bin/python2.7 toilpython27
 source ~/projects/bin/activate
 ```
 
-### finally install the library
+### Finally install the library
 ```
 #get the current source distribution
 wget -O /dist/toil-0.0.1.tar.gz
 pip2.7 install -I /home/user/projects/myproject/toil-0.0.1.tar.gz
 ```
 
-### create a directory for your project
+### Create a directory for your project
 ```
 mkdir ~/projects/myproject
 cd ~/projects/myproject/
@@ -489,7 +488,7 @@ source ~/projects/bin/activate
 which python #should return ~/projects/toilpython27/bin/python
 ```
 
-## notes
+## Notes
 - get the 2.7 release from https://www.python.org/downloads/
 - install .whl by ```pip install some-package.whl```
 - http://dev.mysql.com/downloads/connector/python/
