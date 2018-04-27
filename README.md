@@ -44,15 +44,15 @@ available.
 
 Get the code at https://github.com/drewncrew/toil.git
 
-# Whats New?
+## Whats New?
 - 2018-04-26 First release
 
 
 ## Usage
 Here is a quick glance demonstrating how easy it is:
 
-What format is the config file?
----------------
+## What format is the config file?
+
 The config file is JSON, may provide YAML in future.
 
 Each service may have multiple profiles defined.  For instance, you may have
@@ -63,7 +63,7 @@ Each data source and service may have 1-M profiles.  A profile named 'default' i
 in all method calls if no profile name is provided.
 
 
-######Config File
+## Config File
 ``` json
 {
   "toil": {
@@ -158,14 +158,14 @@ in all method calls if no profile name is provided.
 }
 ```
 
-###Example Code
+## Example Code
 
-###### Call program from bash
+## Call program from bash
 ```
 python /projects/toil/examples/oci_list_compartment.py -c /data/files/config/toil.json -k YPALQ0g7pIOCCHg0hLL1qi7oRzdWk8Vj3Cr8-HsUoy0=
 ```
 
-###### Create Framework
+## Create Framework
 ```
 # process args - get the config file location and encryption key
 args = parm.handle.handle_parms(['c', 'k'])
@@ -174,12 +174,12 @@ args = parm.handle.handle_parms(['c', 'k'])
 framework = toil.create(**args)
 ```
 
-###### Use a profile:
+## Use a profile:
 ```
 framework.oci.session('oci_prod_admin')
 ```
 
-###### OCI (Oracle cloud infrastructure)
+## OCI (Oracle cloud infrastructure)
 ```
 session = framework.oci.session(env)
 compute_client = session.client('compute')
@@ -189,7 +189,7 @@ for instance in instances:
 logger.info(instance)
 ```
 
-###### OpenStack
+## OpenStack
 ```
 session = framework.openstack.session()
 openstack_connection = session.connect()
@@ -198,24 +198,24 @@ for server in openstack_connection.compute.servers():
 meta = server.metadata.get('some-key')
 ```
 
-###### Scalr
+## Scalr
 ```
 session = framework.scalr.session()
 scalr_envs = session.list('/account/environments/')
 ```
 
-###### AWS
+## AWS
 ```
 instance = framework.aws.resource('ec2', 'default').Instance('i-xxxxxxx')
 tags = instance.tags
 ```
 
-###### AWS S3 upload directory
+## AWS S3 upload directory
 ```
 framework.aws.upload_to_s3('some-bucket', '/path to dir', 'folder name')
 ```
 
-###### AES enryption
+## AES enryption
 ```
 key = framework.encryptor.generate_key()
 confidential_data = "this is an encryption test"
@@ -223,27 +223,27 @@ encrypted_data = toil.encryptor.encrypt(confidential_data, encryption_key=key)
 decrypted_data = toil.encryptor.decrypt(encrypted_data, encryption_key=key)
 ```
 
-######A Your owns service you provide becomes a property of the library.  Nice!
+## A Your owns service you provide becomes a property of the library.  Nice!
 ```
 my_service_session = framework.your_service_name.session()
 my_service_session.your_method()
 ```
 
-###### Method execution metrics
+## Method execution metrics
 ```
 @util.decorator.timeit(loops=1)
 def process(toil):
 ...
 ```
 
-###### Retry if an exception occurs
+## Retry if an exception occurs
 ```
 @util.decorator.retry(3, requests.exceptions.RequestException)
 def get(self, url, **kwargs):
 ...
 ```
 
-###### execute a sql statement
+## execute a sql statement
 ```
 # execute a query
 ---------------
@@ -273,7 +273,7 @@ See Install section.
 
 Framework Standard Parameters
 ---------------
-###### Standard parameters include:
+## Standard parameters include:
 -  -c = config file
 -  -e = environment
 -  -k = encryption key
@@ -294,21 +294,20 @@ config_file = 'c:/temp/toil.json'
 encrypted_file = 'c:/temp/toil_enc.json'
 decrypted_file = 'c:/temp/toil_denc.json'
 
-# generate a config file
+### generate a config file
 config.util.generate_config_file(config_file)
 
-#now update the file with credentials and passwords.
+### now update the file with credentials and passwords.
 
-# encrypt file (optional)
+### encrypt file (optional)
 key = toil.encryptor.generate_key('/Users/andrewlove/projects-github/config/toil_key.txt')
 framework.encrypt_config_file(config_file, encrypted_file, encryption_key=key)
 
-# decrypt file (optional)
+### decrypt file (optional)
 framework.decrypt_config_file(encrypted_file, decrypted_file, encryption_key=key)
 ```
 
-How do I add my own service?
----------------
+## How do I add my own service?
 ###### create a class inherits from provider.base.BaseProvider
 ###### implement the session method
 ```
@@ -408,11 +407,10 @@ return {}
 "secret_access_key": "ghi",
 }
 }
-
 ...
 ```
 
-###### use your service
+## use your service
 ```
 session = toil.example_service.session( )
 session.fetch( )
@@ -424,18 +422,18 @@ Review the exmple package.
 Get the code at https://github.com/drewncrew/toil.git
 
 
-Installation
----------------
-####Linux
+## Installation
 
-######create a projects directory
+### Linux
+
+### create a projects directory
 ```
 mkdir ~/projects
 cd ~/projects
 ```
 
 
-######ensure python 2.7.6. is installed (Only do this if installing python)
+### ensure python 2.7.6. is installed (Only do this if installing python)
 ```
 sudo yum groupinstall -y 'development tools'
 sudo yum install -y python-devel
@@ -447,7 +445,7 @@ sudo yum install -y mysql-devel.x86_64
 sudo yum install -y mysql-connector-python
 ```
 
-###### get python source (Only do this if installing python)
+### get python source (Only do this if installing python)
 ```
 wget http://www.python.org/ftp/python/2.7.12/Python-2.7.12.tar.xz
 # decode (-d) the XZ encoded tar archive:
@@ -456,7 +454,7 @@ xz -d Python-2.7.12.tar.xz
 tar -xvf Python-2.7.12.tar
 ```
 
-###### build python 2.7 (Only do this if installing python)
+### build python 2.7 (Only do this if installing python)
 ```
 cd Python-2.7.12
 ./configure
@@ -465,7 +463,7 @@ sudo make altinstall
 #python2.7 should now be in /usr/local/bin/
 ```
 
-######ensure pip is installed
+###ensure pip is installed
 ```
 wget https://bootstrap.pypa.io/get-pip.py
 sudo /usr/local/bin/python2.7 get-pip.py
@@ -473,26 +471,26 @@ sudo /usr/local/bin/python2.7 get-pip.py
 ```
 
 
-###### install virtual environment
+### install virtual environment
 ```
 cd ~/projects
 sudo /usr/local/bin/pip2.7 install virtualenv
 ```
 
-###### activate virtual environment
+### activate virtual environment
 ```
 virtualenv --python=/usr/local/bin/python2.7 toilpython27
 source ~/projects/bin/activate
 ```
 
-######finally install the library
+### finally install the library
 ```
 #get the current source distribution
 wget -O /dist/toil-0.0.1.tar.gz
 pip2.7 install -I /home/user/projects/myproject/toil-0.0.1.tar.gz
 ```
 
-######create a directory for your project
+### create a directory for your project
 ```
 mkdir ~/projects/myproject
 cd ~/projects/myproject/
@@ -501,7 +499,7 @@ source ~/projects/bin/activate
 which python #should return ~/projects/toilpython27/bin/python
 ```
 
-######notes
+## notes
 - get the 2.7 release from https://www.python.org/downloads/
 - install .whl by ```pip install some-package.whl```
 - http://dev.mysql.com/downloads/connector/python/
