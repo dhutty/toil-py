@@ -44,8 +44,7 @@ available.
 
 Get the code at https://github.com/drewncrew/toil.git
 
-Whats New?
-----
+# Whats New?
 - 2018-04-26 First release
 
 
@@ -53,9 +52,9 @@ Usage
 ----
 Here is a quick glance demonstrating how easy it is:
 
-What format is the config file??
+What format is the config file?
 ---------------
-The config file is JSON, may prvide YAML in future.
+The config file is JSON, may provide YAML in future.
 
 Each service may have multiple profiles defined.  For instance, you may have
 an OCI admin profile, OCI basic profile and OCI read only profile.  You may specify
