@@ -59,8 +59,7 @@ Each service may have multiple profiles defined.  For instance, you may have
 an OCI admin profile, OCI basic profile and OCI read only profile.  You may specify
 different credentials in each profile.
 
-Each data source and service may have 1-M profiles.  A profile named 'default' is used
-in all method calls if no profile name is provided.
+A 'default' profile is used in all method calls if no profile name is provided.
 
 ``` json
 {
