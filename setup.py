@@ -14,7 +14,7 @@ from os import path
 here = path.abspath(path.dirname(__file__))
 
 # Get the long description from the README file
-with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
+with open(path.join(here, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
 setup(
@@ -25,7 +25,7 @@ setup(
     # https://packaging.python.org/en/latest/single_source_version.html
     version='1.0.0',
 
-    description='toil - Hard working python framework on the ground for your cloud. Built in workers include OCI, AWS, CHEF, SCALR, REALTIONAL DATA SOURCES.',
+    description='toil - Hard working python framework with boots and eyes on the ground for your cloud. Built in workers include OCI, AWS, CHEF, SCALR, REALTIONAL DATA SOURCES.',
     long_description=long_description,
 
     # The project's main homepage.
@@ -44,7 +44,7 @@ setup(
         #   3 - Alpha
         #   4 - Beta
         #   5 - Production/Stable
-        'Development Status :: 54 - Beta',
+        'Development Status :: 4 - Beta',
 
         # Indicate who your project is intended for
         'Intended Audience :: Developers',
@@ -113,7 +113,7 @@ setup(
     # pip to create the appropriate form of executable for the target platform.
     entry_points={
         'console_scripts': [
-            'myscript=script.myscript:main',
+            'myscript=script.toil_config:main',
         ],
     },
 )

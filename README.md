@@ -3,17 +3,14 @@
 Hard working python framework with eyes and boots on the ground for your cloud.
 <br>
 ```
-           ~~~~~~~~
-            ~~~~~~
-           ~~~~~~~~
- /-\
-|< >|
- \@/
- /|\
-  | \
- / \ \
-   ___\___
-   | | | |
+*  /-\       ~~~~~~~~
+* |< >|       ~~~~~~
+*  \@/       ~~~~~~~~
+*  /|\
+*   | \
+*  / \ \
+*    ___\___
+*    | | | |
 ```
 
 ## Description

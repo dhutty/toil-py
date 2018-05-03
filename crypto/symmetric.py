@@ -1,175 +1,197 @@
 # -*- coding: utf-8 -*-
 """ Handle cryptology via symmetric algorithms. """
+import codecs
+import errno
 import logging
-import base64
+import os
+
 # from Crypto.Cipher import AES
 # from Crypto.Random import get_random_bytes
 from cryptography.fernet import Fernet
-import codecs
 
 # constants
-DEFAULT_BLOCK_SIZE=32
-DEFAULT_IV_SIZE=16
+DEFAULT_BLOCK_SIZE = 32
+DEFAULT_IV_SIZE = 16
 
 logger = logging.getLogger(__name__)
 
 
 class BaseSymmetricEncryptor(object):
-  """
-  Base class for symmetric encryption
-
-  Properties:
-    config: dict with configuration data
-    encryption_key: base 64 encoded key
-    encryption_iv: base 64 coded encoded initialization vector
-  """
-
-  @property
-  def config(self):
-    return self._config
-
-  @config.setter
-  def config(self, value):
-    self._config = value
-
-  @property
-  def encryption_key(self):
-    return self._encryption_key
-
-  @encryption_key.setter
-  def encryption_key(self, value):
-    self._encryption_key = value
-
-  @property
-  def encryption_iv(self):
-    return self._encryption_iv
-
-  @encryption_iv.setter
-  def encryption_iv(self, value):
-    self._encryption_iv = value
-
-  def __init__(self, config):
     """
-    Initialize the encryptor
-    Args:
-      config (dict): Configuration for encryption
+    Base class for symmetric encryption
+
+    Properties:
+      config: dict with configuration data
+      encryption_key: base 64 encoded key
+      encryption_iv: base 64 coded encoded initialization vector
     """
-    self._config = None
-    self._encryption_key = None
-    self._encryption_iv = None
-    self.config = config
-    logger.debug("config={config}".format(config=config))
 
-  def generate_key(self, file_name=None, key_length=DEFAULT_BLOCK_SIZE):
-    """
-    Generate an encryption key.
+    @property
+    def config(self):
+        return self._config
 
-    Args:
-      file_name (str): optional file to write key to
-      key_length (int): byte length of key
+    @config.setter
+    def config(self, value):
+        self._config = value
 
-    Returns:
-      A base 64 encoded key.
-    """
-    raise NotImplementedError
+    @property
+    def encryption_key(self):
+        return self._encryption_key
 
-  def generate_iv(self, file_name=None, iv_length=DEFAULT_IV_SIZE):
-    """
-    Generate an encryption initialization vector.
+    @encryption_key.setter
+    def encryption_key(self, value):
+        if os.path.isfile(value):
+            self.encryption_key = open(value, 'r').read()
+        else:
+            self._encryption_key = value
 
-    Args:
-      file_name (str): optional file name
-      iv_length (int): byte lengrh of iv
+    @property
+    def encryption_iv(self):
+        return self._encryption_iv
 
-    Returns:
-      A base 64 encoded initializstion vector.
-    """
-    raise NotImplementedError
+    @encryption_iv.setter
+    def encryption_iv(self, value):
 
-  def encrypt(self, confidential_data, block_size=DEFAULT_BLOCK_SIZE):
-    """
-    Encrypt data with an symmetric algorithm.
+        self._encryption_iv = value
 
-    Args:
-      confidential_data (str): data to be encrypted
-      block_size (int): optional block size
+    def __init__(self, config):
+        """
+        Initialize the encryptor
+        Args:
+          config (dict): Configuration for encryption
+        """
+        self._config = None
+        self._encryption_key = None
+        self._encryption_iv = None
+        self.config = config
+        logger.debug("config={config}".format(config=config))
 
-    Returns:
-      encrypted data
-    """
-    raise NotImplementedError
+    def generate_key(self, file_name=None, key_length=DEFAULT_BLOCK_SIZE):
+        """
+        Generate an encryption key.
 
-  def decrypt(self, encrypted_data, block_size=DEFAULT_BLOCK_SIZE):
-    """
-    Decrypt data witn a symmetric algorithm.
+        Args:
+          file_name (str): optional file to write key to
+          key_length (int): byte length of key
 
-    Args:
-      encrypted_data (str): data to decrypt
-      block_size (int): optional block size
+        Returns:
+          A base 64 encoded key.
+        """
+        raise NotImplementedError
 
-    Returns:
-    """
-    raise NotImplementedError
+    def generate_iv(self, file_name=None, iv_length=DEFAULT_IV_SIZE):
+        """
+        Generate an encryption initialization vector.
+
+        Args:
+          file_name (str): optional file name
+          iv_length (int): byte lengrh of iv
+
+        Returns:
+          A base 64 encoded initializstion vector.
+        """
+        raise NotImplementedError
+
+    def encrypt(self, confidential_data, block_size=DEFAULT_BLOCK_SIZE):
+        """
+        Encrypt data with an symmetric algorithm.
+
+        Args:
+          confidential_data (str): data to be encrypted
+          block_size (int): optional block size
+
+        Returns:
+          encrypted data
+        """
+        raise NotImplementedError
+
+    def decrypt(self, encrypted_data, block_size=DEFAULT_BLOCK_SIZE):
+        """
+        Decrypt data witn a symmetric algorithm.
+
+        Args:
+          encrypted_data (str): data to decrypt
+          block_size (int): optional block size
+
+        Returns:
+        """
+        raise NotImplementedError
+
 
 class SymmetricEncryptor(BaseSymmetricEncryptor):
-  """
-  Use AES symmetric encryption from the cryptography package
+    """
+    Use AES symmetric encryption from the cryptography package
 
-  See BaseSymmetricEncryptor for additional information.
-  """
+    See BaseSymmetricEncryptor for additional information.
+    """
 
-  def __init__(self, config):
-    super(SymmetricEncryptor, self).__init__(config)
+    def __init__(self, config):
+        super(SymmetricEncryptor, self).__init__(config)
 
-    if 'key' in config.keys():
-      self.encryption_key = config['key']
+        if 'key' in config.keys():
 
-  def generate_key(self, file_name=None, key_length=DEFAULT_BLOCK_SIZE):
-   key = Fernet.generate_key()
+            if os.path.isfile(config['key']):
+                self.encryption_key = open(config['key'], 'r').read()
+            else:
+                self.encryption_key = config['key']
 
-   if file_name is not None:
-     logger.info('key file:{file_name}'.format(file_name=file_name))
-     with codecs.open(file_name, 'a', 'utf-8') as f:
-       f.write(key)
-       f.write('\n')
 
-   return key
+    def generate_key(self, file_name=None, key_length=DEFAULT_BLOCK_SIZE):
 
-  def encrypt(self, confidential_data, block_size=DEFAULT_BLOCK_SIZE, encryption_key=None, encryption_iv=None):
+        key = Fernet.generate_key()
 
-    if isinstance(confidential_data, unicode):
-      confidential_data = str(confidential_data)
+        if file_name is not None:
+            if not os.path.exists(os.path.dirname(file_name)):
+                try:
+                    os.makedirs(os.path.dirname(file_name))
 
-    if encryption_key is None:
-      encryption_key = self.encryption_key
-    else:
-      encryption_key = encryption_key
+                except OSError as exc:  # Guard against race condition
+                    if exc.errno != errno.EEXIST:
+                        raise
 
-    f = Fernet(encryption_key)
-    encrypted_data = f.encrypt(confidential_data.encode("utf-8"))
+            logger.info('key file:{file_name}'.format(file_name=file_name))
 
-    logger.debug('encrypted:{encrypted_data}'.format(encrypted_data=encrypted_data))
+            with codecs.open(file_name, 'a', 'utf-8') as f:
+                f.write(key)
+                f.write('\n')
 
-    return encrypted_data
+        return key
 
-  def decrypt(self, encrypted_data, block_size=DEFAULT_BLOCK_SIZE, encryption_key=None, encryption_iv=None):
+    def encrypt(self, confidential_data, block_size=DEFAULT_BLOCK_SIZE, encryption_key=None, encryption_iv=None):
 
-    if isinstance(encrypted_data, unicode):
-     encrypted_data = str(encrypted_data)
+        if isinstance(confidential_data, unicode):
+            confidential_data = str(confidential_data)
 
-    logger.debug('decrypt:{encrypted_data}'.format(encrypted_data=encrypted_data))
+        if encryption_key is None:
+            encryption_key = self.encryption_key
+        else:
+            encryption_key = encryption_key
 
-    if encryption_key is None:
-      encryption_key = self.encryption_key
-    else:
-      encryption_key = encryption_key
+        f = Fernet(encryption_key)
+        encrypted_data = f.encrypt(confidential_data.encode("utf-8"))
 
-    f = Fernet(encryption_key)
-    decrypted_data = f.decrypt(encrypted_data.encode("utf-8"))
+        logger.debug('encrypted:{encrypted_data}'.format(encrypted_data=encrypted_data))
 
-    logger.debug('decrypt result:{decrypted_data}'.format(decrypted_data=decrypted_data))
+        return encrypted_data
 
-    return decrypted_data
+    def decrypt(self, encrypted_data, block_size=DEFAULT_BLOCK_SIZE, encryption_key=None, encryption_iv=None):
+
+        if isinstance(encrypted_data, unicode):
+            encrypted_data = str(encrypted_data)
+
+        logger.debug('decrypt:{encrypted_data}'.format(encrypted_data=encrypted_data))
+
+        if encryption_key is None:
+            encryption_key = self.encryption_key
+        else:
+            encryption_key = encryption_key
+
+        f = Fernet(encryption_key)
+        decrypted_data = f.decrypt(encrypted_data.encode("utf-8"))
+
+        logger.debug('decrypt result:{decrypted_data}'.format(decrypted_data=decrypted_data))
+
+        return decrypted_data
 
 # class SymmetricEncryptor(BaseSymmetricEncryptor):
 #   """

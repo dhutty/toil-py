@@ -3,6 +3,8 @@
 import logging
 import codecs
 import pkg_resources
+import os
+import errno
 
 logger = logging.getLogger(__name__)
 
@@ -31,6 +33,12 @@ def generate_config_file(file_name=None):
 
     if file_name is not None:
         logger.info('config file:{file_name}'.format(file_name=file_name))
+        if not os.path.exists(os.path.dirname(file_name)):
+            try:
+                os.makedirs(os.path.dirname(file_name))
+            except OSError as exc:  # Guard against race condition
+                if exc.errno != errno.EEXIST:
+                    raise
         with codecs.open(file_name, 'w', 'utf-8') as f:
             f.write(config_json)
             f.write('\n')

@@ -50,7 +50,6 @@ def parse_parameters(mandatory=None, optional=None):
     parser.add_argument('-c', dest='config_file', help='config file', required=('c' in mandatory))
     parser.add_argument('-v', dest='verbose', action='store_true', default=False, help='verbose output',
                         required=('v' in mandatory))
-    parser.add_argument('-u', dest='uai', help='UAI application identifier', required=('u' in mandatory))
     parser.add_argument('-o', dest='options', help='declare hash for options {parm: value}',
                         required=('o' in mandatory))
     parser.add_argument('-k', dest='encryption_key', help='encryption key', required=('k' in mandatory))
