@@ -84,7 +84,7 @@ setup(
     #install_requires=['boto3', 'PyMySQL', 'pycryptodome', 'SQLAlchemy', 'requests>=2.5.1',
     #                  'nose', 'urllib3[secure]', 'python-ldap', "openstacksdk", "PyChef"],
 
-    install_requires=["PyMySQL", "cryptography==2.1.3", "SQLAlchemy", "requests>=2.5.1",
+    install_requires=["PyMySQL", "cryptography>=2.1.3", "SQLAlchemy", "requests>=2.5.1",
                       "nose", "urllib3[secure]", "PyChef", "oci", "openstacksdk","boto3"],
     # List additional groups of dependencies here (e.g. development
     # dependencies). You can install these using the following syntax,
