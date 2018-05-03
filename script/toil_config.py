@@ -120,7 +120,6 @@ class Batch(BaseBatch):
             logger.error(message)
             traceback.print_exc(file=sys.stdout)
 
-
     def encrypt(self, framework, file_name):
         logger.info('execute')
 
