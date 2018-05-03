@@ -113,7 +113,7 @@ setup(
     # pip to create the appropriate form of executable for the target platform.
     entry_points={
         'console_scripts': [
-            'myscript=script.toil_config:main',
+            'toil_config=script.toil_config:main',
         ],
     },
 )
