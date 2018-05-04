@@ -11,14 +11,14 @@ import re
 
 import requests
 
-import provider.base
+import toil.provider.base
 import toil
-import util.decorator
+import toil.util.decorator
 
 logger = logging.getLogger(__name__)
 
 
-class OpenStackLib(provider.base.BaseProvider):
+class OpenStackLib(toil.provider.base.BaseProvider):
     """
     Class for Scalr functionality.
 
@@ -259,7 +259,7 @@ class OpenStackApiSession(requests.Session):
         else:
             return super(OpenStackApiSession, self).patch(str(url), **kwargs)
 
-    @util.decorator.retry(3, requests.exceptions.RequestException)
+    @toil.util.decorator.retry(3, requests.exceptions.RequestException)
     def get(self, service_name, url, service_type='public', **kwargs):
         if service_name is not None:
             service_url = self.get_service_url(service_name, url, service_type)
@@ -267,7 +267,7 @@ class OpenStackApiSession(requests.Session):
         else:
             return super(OpenStackApiSession, self).get(str(url), **kwargs)
 
-    @util.decorator.retry(3, requests.exceptions.RequestException)
+    @toil.util.decorator.retry(3, requests.exceptions.RequestException)
     def head(self, service_name, url, service_type='public', **kwargs):
         if service_name is not None:
             service_url = self.get_service_url(service_name, url, service_type)

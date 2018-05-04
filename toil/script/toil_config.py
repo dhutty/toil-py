@@ -3,13 +3,12 @@ import logging
 import os.path
 import sys
 import traceback
-
-import config
-import parm
-import parm.parse
-import toil
-import util.decorator
-from batch.base import BaseBatch
+import toil.config
+import toil.parm
+import toil.parm.parse
+import toil.framework
+import toil.util.decorator
+from toil.batch.base import BaseBatch
 
 logging.basicConfig(format='%(asctime)s %(levelname)s: %(name)s %(message)s', level=logging.ERROR)
 logger = logging.getLogger(__name__)
@@ -18,15 +17,15 @@ logger = logging.getLogger(__name__)
 class Batch(BaseBatch):
     def create_toil(self):
         # require a config file to be passed in as parameter
-        args = parm.parse.handle_parms(optional=['create', 'create_key', 'encrypt', 'decrypt', 'init'])
+        args = toil.parm.parse.handle_parms(optional=['create', 'create_key', 'encrypt', 'decrypt', 'init'])
 
         # require config file, encyyption key and initialization vector
         # args = parm.handle.handle_parms(['c', 'k', 'i'])
 
         logger.debug(args)
-        return toil.create(**args)
+        return toil.framework.create(**args)
 
-    @util.decorator.timeit(loops=1)
+    @toil.util.decorator.timeit(loops=1)
     def execute(self, framework):
         logger.info('execute')
 
@@ -56,7 +55,7 @@ class Batch(BaseBatch):
 
         if not performed_config:
             usage = """
-            usage: toil_config.py [--init CONFIG_DIR_NAME] 
+            usage: toil-config [--init CONFIG_DIR_NAME] 
                                     create directory, create config.json, create key
                                     
                                   [--create FILE_NAME]
@@ -73,13 +72,13 @@ class Batch(BaseBatch):
                                   
             To get started try this:
             
-                toil_config.py --init /path/.toil
+                toil-config --init /path/.toil
                     creates a config.json file in your directory and an encryption key
                     
-                toil_config.py -k /path/.toil/key --encrypt /path/.toil/config.json
+                toil-config -k /path/.toil/key --encrypt /path/.toil/config.json
                     create the file /path/.toil/config.json.encrypted where all values are encrypted
                     
-                toil_config.py -k /path/.toil/key --decrypt /Users/aclove/.toil/config.json.encrypted
+                toil-config -k /path/.toil/key --decrypt /Users/aclove/.toil/config.json.encrypted
                     create the file /path/.toil/config.json.encrypted.decrypted where all values are decrypted
                     
             """
@@ -95,7 +94,7 @@ class Batch(BaseBatch):
             if os.path.isfile(file_name):
                 print('The file {0} already exists'.format(file_name))
             else:
-                config.util.generate_config_file(file_name)
+                toil.config.util.generate_config_file(file_name)
                 print('created {0}'.format(file_name))
 
         except Exception as ex:
@@ -146,6 +145,5 @@ class Batch(BaseBatch):
             logger.error(message)
             traceback.print_exc(file=sys.stdout)
 
-
-if __name__ == '__main__':
+def main():
     Batch().run()

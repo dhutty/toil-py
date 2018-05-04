@@ -10,13 +10,13 @@ import logging
 
 import oci
 
-import provider.base
-from toil import CloudException
+import toil.provider.base
+from toil.framework import CloudException
 
 logger = logging.getLogger(__name__)
 
 
-class OciSdkLib(provider.base.BaseProvider):
+class OciSdkLib(toil.provider.base.BaseProvider):
     """
     library for OCI functionality.
     """

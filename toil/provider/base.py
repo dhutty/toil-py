@@ -5,7 +5,7 @@ Provides base functionality for providers.
 import logging
 import abc
 import os
-import config
+import toil.config
 
 logger = logging.getLogger(__name__)
 
@@ -57,7 +57,7 @@ class BaseProvider(object):
         Returns: List
         """
         # list comprehension
-        return [x for x in self._config.keys() if x not in config.util.COMMON_CONFIG_ITEMS]
+        return [x for x in self._config.keys() if x not in toil.config.util.COMMON_CONFIG_ITEMS]
 
     def configure_proxy(self):
         """

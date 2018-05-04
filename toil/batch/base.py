@@ -4,8 +4,8 @@ Provides base functionality for job.
 """
 import abc
 import logging
-import toil
-import parm.parse
+import toil.framework
+import toil.parm.parse
 
 logger = logging.getLogger(__name__)
 
@@ -28,13 +28,13 @@ class BaseBatch(object):
 
     def create_toil(self):
         # require a config file to be passed in as parameter
-        args = parm.parse.handle_parms(['c'])
+        args = toil.parm.parse.handle_parms(['c'])
 
         # require config file, encyyption key and initialization vector
         # args = parm.handle.handle_parms(['c', 'k', 'i'])
 
         logger.debug(args)
-        return toil.create(**args)
+        return toil.framework.create(**args)
 
     @abc.abstractmethod
     def execute(self, toil):

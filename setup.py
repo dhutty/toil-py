@@ -99,7 +99,7 @@ setup(
     # installed, specify them here.  If using Python 2.6 or less, then these
     # have to be included in MANIFEST.in as well.
      package_data={
-        'config': ['config.json'],
+        'toil.config': ['config.json'],
     },
 
     # Although 'package_data' is the preferred approach, in some case you may
@@ -113,7 +113,7 @@ setup(
     # pip to create the appropriate form of executable for the target platform.
     entry_points={
         'console_scripts': [
-            'toil_config=script.toil_config:main',
+            'toil-config=toil.script.toil_config:main',
         ],
     },
 )

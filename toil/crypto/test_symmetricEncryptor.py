@@ -1,11 +1,11 @@
 from unittest import TestCase
 
-import crypto.symmetric
+import toil.crypto.symmetric
 
 
 class TestSymmetricEncryptor(TestCase):
     def test_generate_key(self):
-        encryptor = crypto.symmetric.SymmetricEncryptor({})
+        encryptor = toil.crypto.symmetric.SymmetricEncryptor({})
 
         encryptor.generate_key("/Users/aclove/testkey.dat")
 
@@ -17,7 +17,7 @@ class TestSymmetricEncryptor(TestCase):
 
     def test_encrypt_and_decrypt(self):
         confidential_data = "this is an encryption data test"
-        encryptor = crypto.symmetric.SymmetricEncryptor({})
+        encryptor = toil.crypto.symmetric.SymmetricEncryptor({})
 
         key = encryptor.generate_key()
 

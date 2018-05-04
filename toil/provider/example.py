@@ -3,14 +3,14 @@
 Example custom service
 """
 import logging
-import util.decorator
-import provider.base
+import toil.util.decorator
+import toil.provider.base
 import toil
 
 logger = logging.getLogger(__name__)
 
 
-class ExampleLib(provider.base.BaseProvider):
+class ExampleLib(toil.provider.base.BaseProvider):
     """
     Class example
 
@@ -71,6 +71,6 @@ class ExampleSession(object):
     def post(self, *args, **kwargs):
         return {}
 
-    @util.decorator.retry(3, Exception)
+    @toil.util.decorator.retry(3, Exception)
     def get(self, url, **kwargs):
         return {}

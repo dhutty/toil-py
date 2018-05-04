@@ -6,8 +6,8 @@ oci compartment list example
 import logging
 import traceback
 import sys
-import util.decorator
-from batch.base import BaseBatch
+import toil.util.decorator
+from toil.batch.base import BaseBatch
 
 
 logging.basicConfig(format='%(asctime)s %(levelname)s: %(name)s %(message)s', level=logging.INFO)
@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 
 class Batch(BaseBatch):
 
-    @util.decorator.timeit(loops=1)
+    @toil.util.decorator.timeit(loops=1)
     def execute(self, framework):
         logger.info('execute')
 

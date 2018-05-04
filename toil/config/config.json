@@ -3,7 +3,7 @@
     "datasources": {
       "default": {
         "log_level": "info",
-        "provider": "provider.datasource.AlchemyMySQLDatasourceProvider",
+        "provider": "toil.provider.datasource.AlchemyMySQLDatasourceProvider",
         "proxy": "",
         "adapter": "mysql+pymysql",
         "database": "db_name",
@@ -18,7 +18,7 @@
       "oci": {
         "alias": "oci",
         "log_level": "debug",
-        "provider": "provider.oci_sdk.OciSdkLib",
+        "provider": "toil.provider.oci_sdk.OciSdkLib",
         "proxy": "",
         "default": {
           "user": "ocid1.user.oc1...",
@@ -45,7 +45,7 @@
       "aws": {
         "alias": "aws",
         "log_level": "info",
-        "provider": "provider.aws.AwsLib",
+        "provider": "toil.provider.aws.AwsLib",
         "proxy": "proxy-host-name:proxy-port",
         "default": {
           "access_key_id": "access_key_id",
@@ -67,7 +67,7 @@
       "chef": {
         "alias": "chef",
         "log_level": "debug",
-        "provider": "provider.chefapi.ChefLib",
+        "provider": "toil.provider.chefapi.ChefLib",
         "proxy": "",
         "default": {
           "chef_server_url": "chef_server_url",
@@ -79,7 +79,7 @@
       "openstack": {
         "alias": "openstack",
         "log_level": "info",
-        "provider": "provider.openstack.OpenStackLib",
+        "provider": "toil.provider.openstack.OpenStackLib",
         "proxy": "",
         "default": {
           "auth_url": "auth_url",
@@ -95,7 +95,7 @@
       "openstack_sdk": {
         "alias": "openstack_sdk",
         "log_level": "info",
-        "provider": "provider.openstack_sdk.OpenStackLib",
+        "provider": "toil.provider.openstack_sdk.OpenStackLib",
         "proxy": "",
         "default": {
           "auth_url": "auth_url",
@@ -109,7 +109,7 @@
       "scalr": {
         "alias": "scalr",
         "log_level": "info",
-        "provider": "provider.scalr.ScalrLib",
+        "provider": "toil.provider.scalr.ScalrLib",
         "proxy": "",
         "default": {
           "api_key_id": "api_key_id",

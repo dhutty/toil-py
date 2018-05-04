@@ -4,13 +4,13 @@ Example custom service
 """
 import logging
 
-import provider.base
+import toil.provider.base
 import toil
 
 logger = logging.getLogger(__name__)
 
 
-class PolicyLib(provider.base.BaseProvider):
+class PolicyLib(toil.provider.base.BaseProvider):
     """
     Class example
 

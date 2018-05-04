@@ -5,14 +5,14 @@ See https://www.sqlalchemy.org/ for API details
 """
 import logging
 from sqlalchemy import create_engine
-import provider.base
+import toil.provider.base
 import toil
 import datetime
 
 logger = logging.getLogger(__name__)
 
 
-class DatasourceLib(provider.base.BaseProvider):
+class DatasourceLib(toil.provider.base.BaseProvider):
     """
   The library for data sources.
 

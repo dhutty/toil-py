@@ -13,14 +13,14 @@ import urlparse
 
 import requests
 
-import provider.base
+import toil.provider.base
 import toil
-import util.decorator
+import toil.util.decorator
 
 logger = logging.getLogger(__name__)
 
 
-class ScalrLib(provider.base.BaseProvider):
+class ScalrLib(toil.provider.base.BaseProvider):
     """
     Class for Scalr functionality.
 
@@ -183,7 +183,7 @@ class ScalrApiSession(requests.Session):
     def patch(self, *args, **kwargs):
         return super(ScalrApiSession, self).patch(*args, **kwargs).json()["data"]
 
-    @util.decorator.retry(3, requests.exceptions.RequestException)
+    @toil.util.decorator.retry(3, requests.exceptions.RequestException)
     def get(self, url, **kwargs):
         """
         uses a decorator to retry when a request exception occurs

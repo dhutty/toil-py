@@ -7,14 +7,14 @@ import logging
 import os
 import boto3
 import re
-import provider.base
+import toil.provider.base
 import toil
 from botocore.client import Config
 
 logger = logging.getLogger(__name__)
 
 
-class AwsLib(provider.base.BaseProvider):
+class AwsLib(toil.provider.base.BaseProvider):
     """
     library for AWS functionality.
     """

@@ -13,12 +13,12 @@ import re
 import openstack
 from openstack.profile import Profile
 
-import provider.base
+import toil.provider.base
 
 logger = logging.getLogger(__name__)
 
 
-class OpenStackLib(provider.base.BaseProvider):
+class OpenStackLib(toil.provider.base.BaseProvider):
     """
     library for OPEN_STACK functionality.
     """

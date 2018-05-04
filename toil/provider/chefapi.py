@@ -5,13 +5,13 @@ See https://docs.chef.io/chef_search.html for search details
 """
 from __future__ import absolute_import
 import logging
-import provider.base
+import toil.provider.base
 import toil
 
 logger = logging.getLogger(__name__)
 
 
-class ChefLib(provider.base.BaseProvider):
+class ChefLib(toil.provider.base.BaseProvider):
     """
     library for Chef functionality.
 
