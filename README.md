@@ -39,10 +39,13 @@ implementation details.
 Encryption, method decorators for timing and retry, and other utilities are
 available.
 
-Get the code at https://github.com/drewncrew/toil.git
+Get the code at https://github.com/drewncrew/toil-py
 
 ## Whats New?
-- 2018-05-04 toil is available via pip. 'pip instail toil'
+- 2018-05-04 toil is available via pip. https://pypi.org/project/toil-py/
+```
+pip install toil-py
+```
 - 2018-05-04 Second release 1.1.0. Restructured project
 - 2018-05-03 Console application toil-config will be released soon in 1.1.0
 - 2018-04-26 First release 1.0.0
@@ -289,7 +292,7 @@ toil.config.util.generate_config_file(config_file)
 ### now update the file with credentials and passwords.
 
 ### encrypt file (optional)
-key = framework.encryptor.generate_key('/Users/andrewlove/projects-github/config/toil_key.txt')
+key = framework.encryptor.generate_key('/path/toil_key.txt')
 framework.encrypt_config_file(config_file, encrypted_file, encryption_key=key)
 
 ### decrypt file (optional)
@@ -408,7 +411,7 @@ session.fetch( )
 
 ## Examples
 Review the exmple package.
-Get the code at https://github.com/drewncrew/toil.git
+Get the code at https://github.com/drewncrew/toil-py
 
 
 ## Installation
@@ -492,6 +495,6 @@ which python #should return ~/projects/toilpython27/bin/python
 - get the 2.7 release from https://www.python.org/downloads/
 - install .whl by ```pip install some-package.whl```
 - http://dev.mysql.com/downloads/connector/python/
-- get the current source distribution at https://github.com/drewncrew/toil.git/raw/master/dist/
+- get the distribution with pip. see https://pypi.org/project/toil-py/
 - pip install -I toil-0.0.1.tar.gz
 - Create a source distribution with command python setup.py sdist --formats=gztar
