@@ -64,7 +64,7 @@ A 'default' profile is used in all method calls if no profile name is provided.
     "datasources": {
       "default": {
         "log_level": "info",
-        "provider": "provider.datasource.AlchemyMySQLDatasourceProvider",
+        "provider": "toil.provider.datasource.AlchemyMySQLDatasourceProvider",
         "proxy": "",
         "adapter": "mysql+pymysql",
         "database": "db_name",
@@ -79,7 +79,7 @@ A 'default' profile is used in all method calls if no profile name is provided.
       "oci": {
         "alias": "oci",
         "log_level": "debug",
-        "provider": "provider.oci_sdk.OciSdkLib",
+        "provider": "toil.provider.oci_sdk.OciSdkLib",
         "proxy": "",
         "default": {
           "user": "ocid1.user.oc1...",
@@ -113,7 +113,7 @@ A 'default' profile is used in all method calls if no profile name is provided.
       "aws": {
         "alias": "aws",
         "log_level": "info",
-        "provider": "provider.aws.AwsLib",
+        "provider": "toil.provider.aws.AwsLib",
         "proxy": "proxy-host-name:proxy-port",
         "default": {
           "access_key_id": "access_key_id",
@@ -135,7 +135,7 @@ A 'default' profile is used in all method calls if no profile name is provided.
       "openstack": {
         "alias": "openstack",
         "log_level": "info",
-        "provider": "provider.openstack.OpenStackLib",
+        "provider": "toil.provider.openstack.OpenStackLib",
         "proxy": "",
         "default": {
           "auth_url": "auth_url",
@@ -156,16 +156,16 @@ A 'default' profile is used in all method calls if no profile name is provided.
 
 ### Call program from bash
 ```
-python /projects/toil/examples/oci_list_compartment.py -c /data/files/config/toil.json -k YPALQ0g7pIOCCHg0hLL1qi7oRzdWk8Vj3Cr8-HsUoy0=
+python oci_list_compartment.py -c /data/files/config/toil.json -k YPALQ0g7pIOCCHg0hLL1qi7oRzdWk8Vj3Cr8-HsUoy0=
 ```
 
 ### Create Framework
 ```
 # process args - get the config file location and encryption key
-args = parm.handle.handle_parms(['c', 'k'])
+args = toil.parm.handle.handle_parms(['c', 'k'])
 
 # create cloud framework
-framework = toil.create(**args)
+framework = toil.framework.create(**args)
 ```
 
 ### Use a profile:
@@ -213,8 +213,8 @@ framework.aws.upload_to_s3('some-bucket', '/path to dir', 'folder name')
 ```
 key = framework.encryptor.generate_key()
 confidential_data = "this is an encryption test"
-encrypted_data = toil.encryptor.encrypt(confidential_data, encryption_key=key)
-decrypted_data = toil.encryptor.decrypt(encrypted_data, encryption_key=key)
+encrypted_data = framework.encryptor.encrypt(confidential_data, encryption_key=key)
+decrypted_data = framework.encryptor.decrypt(encrypted_data, encryption_key=key)
 ```
 
 ### Your own service you provide becomes a property of the library.  Nice!
@@ -225,14 +225,14 @@ my_service_session.your_method()
 
 ### Method execution metrics
 ```
-@util.decorator.timeit(loops=1)
+@toil.util.decorator.timeit(loops=1)
 def process(toil):
 ...
 ```
 
 ### Retry if an exception occurs
 ```
-@util.decorator.retry(3, requests.exceptions.RequestException)
+@toil.util.decorator.retry(3, requests.exceptions.RequestException)
 def get(self, url, **kwargs):
 ...
 ```
@@ -281,12 +281,12 @@ encrypted_file = 'c:/temp/toil_enc.json'
 decrypted_file = 'c:/temp/toil_denc.json'
 
 ### generate a config file
-config.util.generate_config_file(config_file)
+toil.config.util.generate_config_file(config_file)
 
 ### now update the file with credentials and passwords.
 
 ### encrypt file (optional)
-key = toil.encryptor.generate_key('/Users/andrewlove/projects-github/config/toil_key.txt')
+key = framework.encryptor.generate_key('/Users/andrewlove/projects-github/config/toil_key.txt')
 framework.encrypt_config_file(config_file, encrypted_file, encryption_key=key)
 
 ### decrypt file (optional)
@@ -294,7 +294,7 @@ framework.decrypt_config_file(encrypted_file, decrypted_file, encryption_key=key
 ```
 
 ## How do I add my own service?
-### create a class inherits from provider.base.BaseProvider
+### create a class inherits from toil.provider.base.BaseProvider
 ### implement the session method
 ```
 # -*- coding: utf-8 -*-
@@ -302,14 +302,14 @@ framework.decrypt_config_file(encrypted_file, decrypted_file, encryption_key=key
 Example custom service
 """
 import logging
-import util.decorator
-import provider.base
-import toil
+import toil.util.decorator
+import toil.provider.base
+import toil.framework
 
 logger = logging.getLogger(__name__)
 
 
-class ExampleLib(provider.base.BaseProvider):
+class ExampleLib(toil.provider.base.BaseProvider):
 """
 Class example
 
@@ -369,7 +369,7 @@ return {}
 def post(self, *args, **kwargs):
 return {}
 
-@util.decorator.retry(3, Exception)
+@toil.util.decorator.retry(3, Exception)
 def get(self, url, **kwargs):
 return {}
 ```
@@ -378,7 +378,7 @@ return {}
 ``` json
 "services": {
   "example_service": {
-    "provider": "provider.example.ExampleLib",
+    "provider": "toil.provider.example.ExampleLib",
     "alias": "example_service",
     "log_level": "info",
     "proxy": "",
