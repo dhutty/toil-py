@@ -42,7 +42,10 @@ available.
 Get the code at https://github.com/drewncrew/toil.git
 
 ## Whats New?
-- 2018-04-26 First release
+- 2018-05-04 toil is available via pip. 'pip instail toil'
+- 2018-05-04 Second release 1.1.0. Restructured project
+- 2018-05-03 Console application toil-config will be released soon in 1.1.0
+- 2018-04-26 First release 1.0.0
 
 
 ## Usage
