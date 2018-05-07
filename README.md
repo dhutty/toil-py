@@ -42,7 +42,36 @@ available.
 Get the code at https://github.com/drewncrew/toil-py
 
 ## Whats New?
-- 2018-05-04 toil is available via pip. https://pypi.org/project/toil-py/
+- 2018=05-07 config console tool
+After installing toil-py with pip use the config tool to create, encrypt and decrypt the json config.
+```
+    usage: toil-config [--init CONFIG_DIR_NAME]
+        create directory, create config.json, create key
+
+         [--create FILE_NAME]
+         create config file with file name
+
+         [--create_key FILE_NAME]
+         create encryption key with file name
+
+         [--encrypt CONFIG_FILE_NAME]
+         encrypt config file
+
+         [--decrypt CONFIG_FILE_NAME]
+         decrypt config file
+
+    To get started try this:
+
+    toil-config --init /path/.toil
+        creates a config.json file in your directory and an encryption key
+
+    toil-config -k /path/.toil/key --encrypt /path/.toil/config.json
+        create the file /path/.toil/config.json.encrypted where all values are encrypted
+
+    toil-config -k /path/.toil/key --decrypt /Users/aclove/.toil/config.json.encrypted
+        create the file /path/.toil/config.json.encrypted.decrypted where all values are decrypted
+```
+- 2018-05-04 toil is available via pip. https://pypi.org/project/toil-py
 ```
 pip install toil-py
 ```
