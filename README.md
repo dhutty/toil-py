@@ -42,8 +42,11 @@ available.
 Get the code at https://github.com/drewncrew/toil-py
 
 ## Whats New?
+- 2018-05-08 improved oci library and added vertical instance scaling example
+
 - 2018-05-07 config console tool
 ```
+
     After installing toil-py with pip use the config tool to create, encrypt and decrypt the json config.
     usage: toil-config [--init CONFIG_DIR_NAME]
         create directory, create config.json, create key
