@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 """
 toil - A hard working framework on the ground for your cloud
-oci compute list example
+oci vertical scale / change shape example
 """
 import logging
-import traceback
 import sys
+import traceback
+
 import toil.util.decorator
 from toil.batch.base import BaseBatch
 
@@ -20,16 +21,15 @@ class Batch(BaseBatch):
         logger.info('execute')
 
         try:
-
             env = "oci_profile_1"
-
             logger.info("processing env:{env}".format(env=env))
             session = framework.oci.session(env)
-            compute_client = session.client('compute')
-            instances = session.paginate(compute_client.list_instances, session.config()['compartment_id'])
+            compute_client = session.client('compute1')
+            virtual_network_client = session.client("virtualnetwork")
 
-            for instance in instances:
-                logger.info(instance)
+            session.scale_vertical(compute_client, virtual_network_client,
+                                   "ocid1.instance.oc1.iad.abuwcljrv6tl22sbsluibyunos4d5v4yeigtprzeiq3slydlrfxhnw7awn7q",
+                                   "VM.Standard1.1")
 
         except Exception as ex:
             logger.error(ex)
