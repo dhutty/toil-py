@@ -32,8 +32,8 @@ setup(
     url='https://github.com/drewncrew/toil',
 
     # Author details
-    author='Andrew Love',
-    author_email='DREWNCREW@GMAIL.COM',
+    author='drewncrew',
+    author_email='drewncrew@gmail.com',
 
     # Choose your license
     license='MIT',
