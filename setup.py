@@ -25,7 +25,7 @@ setup(
     # https://packaging.python.org/en/latest/single_source_version.html
     version='1.3.1',
 
-    description='toil - Hard working python framework with eyes and boots on the ground for your cloud. Built in workers include OCI, AWS, CHEF, SCALR, REALTIONAL DATA SOURCES.',
+    description='toil - Hard working python framework with eyes and boots on the ground for your cloud. Built in workers include OCI, AWS, CHEF, SCALR, RELATIONAL DATA SOURCES.',
     long_description=long_description,
 
     # The project's main homepage.
